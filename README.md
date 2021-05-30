@@ -12,7 +12,7 @@ CLOCs: Camera-LiDAR Object Candidates Fusion for 3D Object Detection. CLOCs is a
 }
 ```
 
-Thanks to the original [implementation](https://github.com/pangsu0613/CLOCs), it help me a lot. 
+Thanks to the original [implementation](https://github.com/pangsu0613/CLOCs), it helps me a lot. 
 
 ### Environment
 
@@ -22,7 +22,7 @@ Python 3.7, Pytorch 1.5, Ubuntu 18.04
 
 new 40 recall points
 
-![Result](./Result.png)
+![Result](.\Result.png)
 
 ### Install PCdet
 
