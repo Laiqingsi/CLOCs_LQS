@@ -22,7 +22,7 @@ Python 3.7, Pytorch 1.5, Ubuntu 18.04
 
 new 40 recall points
 
-![Result](F:\University\大三下\大创\my_Clocs\Result.png)
+![Result](./Result.png)
 
 ### Install PCdet
 
