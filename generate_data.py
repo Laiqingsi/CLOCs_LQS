@@ -25,15 +25,15 @@ def parse_args():
                         help='3d prediction path')
     parser.add_argument('--inputpath', type=str, default='../data/clocs_data/input_data',
                         help='input data save path')
-    parser.add_argument('--train-indexpath', type=str, default='../data/clocs_data/index/train.txt',
+    parser.add_argument('--train-indexpath', type=str, default='./index/train.txt',
                         help='index data path')
-    parser.add_argument('--val-indexpath', type=str, default='../data/clocs_data/index/val.txt',
+    parser.add_argument('--val-indexpath', type=str, default='./index/val.txt',
                         help='index data path')
     parser.add_argument('--epochs', type=int, default=50,
                         help='training epochs')
     parser.add_argument('--infopath', type=str, default='../data/clocs_data/info/kitti_infos_trainval.pkl',
                         help='index data path')
-    parser.add_argument('--d2method', type=str, default='faster',
+    parser.add_argument('--d2method', type=str, default='cascade',
                         help='2d prediction method')
     parser.add_argument('--d3method', type=str, default='pointpillar',
                         help='3d prediction method')
