@@ -18,11 +18,17 @@ Thanks to the original [implementation](https://github.com/pangsu0613/CLOCs), it
 
 Python 3.7, Pytorch 1.5, Ubuntu 18.04
 
+Add the CLOCs directory to your PYTHONPATH, just add below line to your `~/.bashrc` file:
+
+```bash
+export PYTHONPATH=$PYTHONPATH:'/dir/to/your/CLOCs/'
+```
+
 ### Performance
 
 new 40 recall points
 
-![Result](.\Result.png)
+![Result](./Result.png)
 
 ### Install PCdet
 
@@ -32,9 +38,9 @@ The code is partly based on [Open-PCdet](https://github.com/open-mmlab/OpenPCDet
 
 #### Get detection results
 
-1. You need to prepare the 3D detection results and 2D detection results. Please note that the results that do not go through NMS are better. 
-2. For the 3D detection results, you can just use the PCdet that you have installed to train your own model. Then you need to get the prediction results. If you want to get no NMS results, then you need to modified the dataset yaml file in  `OpenPCDet/tools/cfgs/dataset_configs` and model prediction file in `OpenPCDet/tools/cfgs/*_models`. How to modified them depends on your model and your dataset.
-3. In `OpenPCDet/tools/eval_utils/eval_utils.py` line 61：
+1. You need to **prepare the 3D detection results and 2D detection results**. Please note that the results that do not go through NMS are better. 
+2. For the **3D detection results**, you can just use the PCdet that you have installed to train your own model. Then you need to get the prediction results. If you want to get no NMS results, then you need to modified the dataset yaml file in  `OpenPCDet/tools/cfgs/dataset_configs` and model prediction file in `OpenPCDet/tools/cfgs/*_models`. How to modified them depends on your model and your dataset. Or you can download 3D detection results **[here](https://jbox.sjtu.edu.cn/l/OFgs7G)(or [Googledrive](https://drive.google.com/file/d/1tzajKim1Uh65zn4ABVHGC5TceK-IaWg_/view))**. If you can get the results have same format as  I supplied, that will be OK also.
+3. Here is my way to get 3D detection results. If you have got them from Googledrive, you can just ignore the following. In `OpenPCDet/tools/eval_utils/eval_utils.py` line 61：
 
 ```python
         annos = dataset.generate_prediction_dicts(
@@ -44,9 +50,9 @@ The code is partly based on [Open-PCdet](https://github.com/open-mmlab/OpenPCDet
         det_annos += annos
 ```
 
-​	Here, `annos` denotes one detection results for one input. You can add one line `torch.save(***)` or other method to save the detection results. Here you need to predict all dataset results that training and validation dataset. So that, you can train your CLOCs model and validate it. Or you can download 3D detection results [here](https://jbox.sjtu.edu.cn/l/OFgs7G). If you can get the results have same format as  I supplied, that will be OK also.
+​	Here, `annos` denotes one detection results for one input. You can add one line `torch.save(***)` or other method to save the detection results. Here you need to predict all dataset results that training and validation dataset. So that, you can train your CLOCs model and validate it.
 
-4. You need to get 2D detection results, you can use [mmdetection](https://github.com/open-mmlab/mmdetection) to get your results. Or you can download [here](https://jbox.sjtu.edu.cn/l/hFDjf2). (this file is from original [CLOCs](https://github.com/pangsu0613/CLOCs)). The 2D result format is as below, almost same as kitti format.
+4. You need to get 2D detection results, you can use [mmdetection](https://github.com/open-mmlab/mmdetection) to get your results. Or you can download **[here](https://jbox.sjtu.edu.cn/l/hFDjf2). (or [Googledrive](https://drive.google.com/file/d/11_OvYFpsK12bn_TRDElbYmnTqmvyfpG-/view), this file is from original [CLOCs](https://github.com/pangsu0613/CLOCs) )**. The 2D result format is as below, almost same as kitti format.
 
 ```
 Car -1 -1 -10 1133.50 278.19 1225.04 329.51 -1 -1 -1 -1000 -1000 -1000 -10 0.0150 
@@ -58,14 +64,23 @@ Car -1 -1 -10 751.01 150.31 782.09 177.66 -1 -1 -1 -1000 -1000 -1000 -10 0.0014
 
 #### Generate fusion input
 
-Generate the input data for CLOCs training.  Modify the file `generate_data.py` as below, or you can just skip this step, go next to modify `train.py`, but the rule of `train.py` is same as here.
+First of all, you need to organize your 2D and 3D results as below:
 
 ```
-'--d2path' Name of the parent folder where the prediction results are stored
-'--d2method' Name of the folder that your results are stored
-for example, if your results are stored in '~/data/clocs_data/2D/cascade/***.txt'
-'--d2path' should be '~/data/clocs_data/2D'
-'--d2method' should be 'cascade'
+organize your 2D results as below:
+'your_clocs_data_path/2D/cascade/***.txt'
+
+organize your 3D results as below:
+'your_clocs_data_path/3D/second/***.pt'
+```
+
+
+
+Modify the file `generate_data.py` as below, or you can just skip this step, go next to modify `train.py`, but the rule of `train.py` is same as here.
+
+```
+'--d2path' Name of the parent folder where the prediction results are stored, for example 'your_clocs_data_path/2D'
+'--d2method' Name of the folder that your results are stored, for example 'cascade'
 '--d3path' and '--d3method' same as above
 '--infopath' is the path of the file 'kitti_infos_trainval.pkl' produced by pcdet
 '--inputpath' is where the input data stored
@@ -78,7 +93,7 @@ if you modified above well, then just
   python generate_data.py
 ```
 
-then you can get the input data.
+then you can get the input data that stored in `'inputpath'`.
 
 #### Train and Evaluation
 

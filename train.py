@@ -20,25 +20,25 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Train network')
 
     parser.add_argument('--cfg_file', type=str, default='./tool/cfgs/kitti_models/second/second_car.yaml', help='specify the config for training')
-    parser.add_argument('--d2path', type=str, default='../data/clocs_data/2D',
+    parser.add_argument('--d2path', type=str, default='./data/clocs_data/2D',
                         help='2d prediction path')
-    parser.add_argument('--d3path', type=str, default='../data/clocs_data/3D',
+    parser.add_argument('--d3path', type=str, default='./data/clocs_data/3D',
                         help='3d prediction path')
-    parser.add_argument('--inputpath', type=str, default='../data/clocs_data/input_data',
+    parser.add_argument('--inputpath', type=str, default='./data/clocs_data/input_data',
                         help='input data save path')
-    parser.add_argument('--train-indexpath', type=str, default='../data/clocs_data/index/train.txt',
+    parser.add_argument('--train-indexpath', type=str, default='./data/clocs_data/index/train.txt',
                         help='index data path')
-    parser.add_argument('--val-indexpath', type=str, default='../data/clocs_data/index/val.txt',
+    parser.add_argument('--val-indexpath', type=str, default='./data/clocs_data/index/val.txt',
                         help='index data path')
     parser.add_argument('--epochs', type=int, default=50,
                         help='training epochs')
-    parser.add_argument('--infopath', type=str, default='../data/clocs_data/info/kitti_infos_trainval.pkl',
+    parser.add_argument('--infopath', type=str, default='./data/clocs_data/info/kitti_infos_trainval.pkl',
                         help='index data path')
     parser.add_argument('--d2method', type=str, default='faster',
                         help='2d prediction method')
-    parser.add_argument('--d3method', type=str, default='pointpillar',
+    parser.add_argument('--d3method', type=str, default='second',
                         help='3d prediction method')
-    parser.add_argument('--log-path', type=str, default='./log/pointpillar/faster',
+    parser.add_argument('--log-path', type=str, default='./log/second/faster',
                         help='log path')
     parser.add_argument('--generate', type=int, default=0,
                         help='whether generate data')
