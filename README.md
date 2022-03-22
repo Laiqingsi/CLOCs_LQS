@@ -96,6 +96,8 @@ First of all, you need to organize your 2D and 3D results as below:
 Modify some parameters of the file `generate_data.py` following below instruction. Or you can just input this args when you run `python generate_data.py`.
 
 ```
+'--rootpath' data dir where you save your all data
+
 '--d2path' Name of the parent folder where the prediction results are stored, for example 'your_clocs_data_path/2D'
 
 '--d3path' is same as above
@@ -116,12 +118,12 @@ if you modified above well, then just
 then you can get the input data that stored in `'inputpath'`. Your data dir should be like below:
 ```
 .
-└── clocs_data
-    ├── 2D
+└── clocs_data(rootpath)
+    ├── 2D(d2path)
     │   ├── 000000.txt
     │   ├── 000001.txt
     │   └── 000002.txt
-    ├── 3D
+    ├── 3D(d3path)
     │   ├── 000000.pt
     │   ├── 000001.pt
     │   └── 000002.pt
@@ -174,6 +176,8 @@ python eval.py
 ```
 
 ​	It will validate all your model, you can choose the best one.
+
+3. Get baseline results.  Modify the file `baseline.py` as above rule.
 
 ### Some Tips
 
