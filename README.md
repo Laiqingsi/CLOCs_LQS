@@ -179,6 +179,10 @@ python eval.py
 
 3. Get baseline results.  Modify the file `baseline.py` as above rule.
 
+```
+python baseline.py
+```
+
 ### Some Tips
 
 This implementation just store the input data, 3D detection data and 2D detection data in disks, so the training process is much faster than original CLOCs implementation. If you want to use CLOCs in other dataset or other detection method, you just need to modify the data pre-processing or just output the detection results as here defined. By following above, you can apply this fusion network in any method you want and it can be trained well in a short time.
