@@ -4,28 +4,28 @@ import time
 import numba
 import pickle
 from torch.utils.data import Dataset
-from tool.pcdet.datasets.kitti.kitti_object_eval_python.eval import d3_box_overlap
+from pcdet.datasets.kitti.kitti_object_eval_python.eval import d3_box_overlap
 from tqdm import tqdm
 from pathlib import Path
 
 
 class clocs_data(Dataset):
 
-    def __init__(self, _2d_path, _3d_path, index_path, input_data, d2method, d3method, infopath = '../data/clocs_data/info/kitti_infos_trainval.pkl', val = False):
-        self.d2method = d2method
-        self.d3method = d3method
-        self._2d_path = _2d_path + '/' + d2method
-        self._3d_path = _3d_path + '/' + d3method
+    def __init__(self, _2d_path, _3d_path, index_path, input_data, infopath = '../data/clocs_data/info/kitti_infos_trainval.pkl', val = False):
+
+        self._2d_path = _2d_path 
+        self._3d_path = _3d_path 
         f = open(index_path, "r")
         self.ind = f.read().splitlines()
         f.close()
         self.val = val
-        self.input_data = input_data + '/' + d3method + '_' + d2method
+        self.input_data = input_data
         self.anno = pickle.load(open(infopath,'rb'))
         self.id2ind = np.zeros(len(self.anno))
         # self.id2ind[img_id] = number in self.anno
         for i in range(len(self.anno)):
-            self.id2ind[self.anno[i]['image']['image_idx']] = i
+            # print(self.anno[i])
+            self.id2ind[int(self.anno[i]['image_idx'])] = i
 
     def generate_input(self):
         input_path = Path(self.input_data)

@@ -5,8 +5,6 @@ import numpy as np
 import torch.utils.data as torch_data
 
 from ..utils import common_utils
-from .augmentor.data_augmentor import DataAugmentor
-from .processor.data_processor import DataProcessor
 from .processor.point_feature_encoder import PointFeatureEncoder
 
 
@@ -17,7 +15,7 @@ class DatasetTemplate(torch_data.Dataset):
         self.training = training
         self.class_names = class_names
         self.logger = logger
-        self.root_path = root_path if root_path is not None else Path(self.dataset_cfg.DATA_PATH)
+        self.root_path = Path(root_path) if root_path is not None else Path(self.dataset_cfg.DATA_PATH)
         self.logger = logger
         if self.dataset_cfg is None or class_names is None:
             return
@@ -27,15 +25,6 @@ class DatasetTemplate(torch_data.Dataset):
             self.dataset_cfg.POINT_FEATURE_ENCODING,
             point_cloud_range=self.point_cloud_range
         )
-        self.data_augmentor = DataAugmentor(
-            self.root_path, self.dataset_cfg.DATA_AUGMENTOR, self.class_names, logger=self.logger
-        ) if self.training else None
-        self.data_processor = DataProcessor(
-            self.dataset_cfg.DATA_PROCESSOR, point_cloud_range=self.point_cloud_range, training=self.training
-        )
-
-        self.grid_size = self.data_processor.grid_size
-        self.voxel_size = self.data_processor.voxel_size
         self.total_epochs = 0
         self._merge_all_iters_to_one_epoch = False
 

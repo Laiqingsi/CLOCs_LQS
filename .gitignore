@@ -1,5 +1,5 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+# __pycache__/
 *.py[cod]
 *$py.class
 
@@ -71,6 +71,8 @@ docs/_build/
 # PyBuilder
 target/
 
+data/
+
 # Jupyter Notebook
 .ipynb_checkpoints
 
@@ -106,3 +108,5 @@ venv.bak/
 .mypy_cache/
 
 .vscode
+*.pt
+/log

@@ -20,6 +20,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Train network')
 
     parser.add_argument('--cfg_file', type=str, default='./tool/cfgs/kitti_models/second/second_car.yaml', help='specify the config for training')
+    parser.add_argument('--rootpath', type=str, default='./data/clocs_data',
+                        help='data root path')
     parser.add_argument('--d2path', type=str, default='./data/clocs_data/2D',
                         help='2d prediction path')
     parser.add_argument('--d3path', type=str, default='./data/clocs_data/3D',
@@ -133,10 +135,9 @@ def eval(net, val_data, logf, log_path, epoch, cfg, eval_set, logger):
 
 if __name__ == "__main__":
     args, cfg = parse_args()
+    root_path = args.rootpath
     _2d_path = args.d2path
     _3d_path = args.d3path
-    d2method = args.d2method
-    d3method = args.d3method
     input_data = args.inputpath
     train_ind_path = args.train_indexpath
     val_ind_path = args.val_indexpath
@@ -153,11 +154,11 @@ if __name__ == "__main__":
     logger = common_utils.create_logger(log_file, rank=cfg.LOCAL_RANK)
 
     if args.generate :
-        train_dataset = clocs_data(_2d_path, _3d_path,'../data/clocs_data/index/trainval.txt', input_data, d2method , d3method,infopath)
+        train_dataset = clocs_data(_2d_path, _3d_path,'./data/clocs_data/index/trainval.txt', input_data, infopath)
         train_dataset.generate_input()
 
-    train_dataset = clocs_data(_2d_path, _3d_path,train_ind_path, input_data, d2method , d3method,infopath)
-    val_dataset = clocs_data(_2d_path, _3d_path,val_ind_path, input_data, d2method , d3method, infopath, val=True)
+    train_dataset = clocs_data(_2d_path, _3d_path,train_ind_path, input_data, infopath)
+    val_dataset = clocs_data(_2d_path, _3d_path,val_ind_path, input_data, infopath, val=True)
 
     train_data = DataLoader(
         train_dataset,
@@ -177,6 +178,7 @@ if __name__ == "__main__":
         dataset_cfg=cfg.DATA_CONFIG,
         class_names=cfg.CLASS_NAMES,
         batch_size=1,
+        root_path=root_path,
         dist=False, workers=8, logger=logger, training=False
     )
 

@@ -16,13 +16,21 @@ Thanks to the original [implementation](https://github.com/pangsu0613/CLOCs), it
 
 ### Environment
 
-Python 3.7, Pytorch 1.5, Ubuntu 18.04
+```
+numpy
+torch
+kornia==0.5.2
+numba
+pyyaml
+easydict
+```
 
 Add the CLOCs directory to your PYTHONPATH, just add below line to your `~/.bashrc` file:
 
 ```bash
 export PYTHONPATH=$PYTHONPATH:'/dir/to/your/CLOCs/'
 ```
+**All data you need can be downloaded from [here](https://jbox.sjtu.edu.cn/l/U1EjFb).**
 
 ### Performance
 
@@ -32,15 +40,21 @@ new 40 recall points
 
 ### Install PCdet
 
-The code is partly based on [Open-PCdet](https://github.com/open-mmlab/OpenPCDet), you need to install it first. Please follow the step [here](https://github.com/open-mmlab/OpenPCDet). Please remind that the PCdet should be installed in another folder not in this folder. 
+The code is partly based on [Open-PCdet](https://github.com/open-mmlab/OpenPCDet), you need to install it first to get 3D detection data. Or you can just use data from [here](https://jbox.sjtu.edu.cn/l/U1EjFb) without PCdet. Please follow the step [here](https://github.com/open-mmlab/OpenPCDet). Please remind that the PCdet should be installed in another folder not in this folder. 
+
+### Install CLOCs
+You can just run
+```
+python setup.py develop
+```
 
 ### Get Fusion Results
 
 #### Get detection results
 
 1. You need to **prepare the 3D detection results and 2D detection results**. Please note that the results that do not go through NMS are better. 
-2. For the **3D detection results**, you can just use the PCdet that you have installed to train your own model. Then you need to get the prediction results. If you want to get no NMS results, then you need to modified the dataset yaml file in  `OpenPCDet/tools/cfgs/dataset_configs` and model prediction file in `OpenPCDet/tools/cfgs/*_models`. How to modified them depends on your model and your dataset. Or you can download 3D detection results **[here](https://jbox.sjtu.edu.cn/l/OFgs7G)(or [Googledrive](https://drive.google.com/file/d/1tzajKim1Uh65zn4ABVHGC5TceK-IaWg_/view))**. If you can get the results have same format as  I supplied, that will be OK also.
-3. Here is my way to get 3D detection results. If you have got them from Googledrive, you can just ignore the following. In `OpenPCDet/tools/eval_utils/eval_utils.py` line 61：
+2. For the **3D detection results**, you can just use the PCdet that you have installed to train your own model. Then you need to get the prediction results. If you want to get no NMS results, then you need to modified your config or model. Or you can download 3D detection results **[here](https://jbox.sjtu.edu.cn/l/OFgs7G)(or [Googledrive](https://drive.google.com/file/d/1tzajKim1Uh65zn4ABVHGC5TceK-IaWg_/view))**. If you can get the results have same format as I supplied, that will be OK also.
+3. Here is my way to get 3D detection results. **If you have got them from Googledrive, you can just ignore the following.** In `OpenPCDet/tools/eval_utils/eval_utils.py` line 61：
 
 ```python
         annos = dataset.generate_prediction_dicts(
@@ -65,39 +79,89 @@ Car -1 -1 -10 751.01 150.31 782.09 177.66 -1 -1 -1 -1000 -1000 -1000 -10 0.0014
 #### Generate fusion input
 
 First of all, you need to organize your 2D and 3D results as below:
+```
+.
+└── clocs_data
+    ├── 2D
+    │   ├── 000000.txt
+    │   ├── 000001.txt
+    │   └── 000002.txt
+    ├── 3D
+    │   ├── 000000.pt
+    │   ├── 000001.pt
+    │   └── 000002.pt
 
 ```
-organize your 2D results as below:
-'your_clocs_data_path/2D/cascade/***.txt'
 
-organize your 3D results as below:
-'your_clocs_data_path/3D/second/***.pt'
-```
-
-
-
-Modify the file `generate_data.py` as below, or you can just skip this step, go next to modify `train.py`, but the rule of `train.py` is same as here.
+Modify some parameters of the file `generate_data.py` following below instruction. Or you can just input this args when you run `python generate_data.py`.
 
 ```
 '--d2path' Name of the parent folder where the prediction results are stored, for example 'your_clocs_data_path/2D'
-'--d2method' Name of the folder that your results are stored, for example 'cascade'
-'--d3path' and '--d3method' same as above
+
+'--d3path' is same as above
+
 '--infopath' is the path of the file 'kitti_infos_trainval.pkl' produced by pcdet
-'--inputpath' is where the input data stored
+
+'--inputpath' is where the input data is stored
+
 '--log-path' is the path where you want to store your model
 ```
 
 if you modified above well, then just 
 
 ```
-  python generate_data.py
+  python generate_data.py --args
 ```
 
-then you can get the input data that stored in `'inputpath'`.
+then you can get the input data that stored in `'inputpath'`. Your data dir should be like below:
+```
+.
+└── clocs_data
+    ├── 2D
+    │   ├── 000000.txt
+    │   ├── 000001.txt
+    │   └── 000002.txt
+    ├── 3D
+    │   ├── 000000.pt
+    │   ├── 000001.pt
+    │   └── 000002.pt
+    └── input_data
+        ├── 000000.pt
+        ├── 000001.pt
+        └── 000002.pt
+```
+
+#### Organize Your Data
+You should organize your data dir as below:
+```
+.
+└── clocs_data
+    ├── 2D
+    │   ├── 000000.txt
+    │   ├── 000001.txt
+    │   └── 000002.txt
+    ├── 3D
+    │   ├── 000000.pt
+    │   ├── 000001.pt
+    │   └── 000002.pt
+    ├── index
+    │   ├── train.txt
+    │   ├── trainval.txt
+    │   └── val.txt
+    ├── info
+    │   ├── kitti_infos_trainval.pkl
+    │   └── kitti_infos_val.pkl
+    └── input_data
+        ├── 000000.pt
+        ├── 000001.pt
+        └── 000002.pt
+```
+Here, the index dir is copied from `./index` and the files in `info` are got from pcdet or you can download from [here](https://jbox.sjtu.edu.cn/l/U1EjFb)
+
 
 #### Train and Evaluation
 
-1. Train the model. You need to modify the file `train.py` same as the `generate_data.py`.  If you skip 5, you need to change `'--generate'`to 1 to generate input data first. If you have generated before, just keep it 0.  Then  
+1. Train the model. You need to modify the file `train.py` same as the `generate_data.py`. Then
 
 ```
 python train.py
