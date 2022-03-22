@@ -5,9 +5,9 @@ import argparse
 import torch
 import datetime
 from tool import fusion,nms
-from tool.pcdet.config import cfg, cfg_from_yaml_file
-from tool.pcdet.datasets import build_dataloader
-from tool.pcdet.utils import common_utils
+from pcdet.config import cfg, cfg_from_yaml_file
+from pcdet.datasets import build_dataloader
+from pcdet.utils import common_utils
 from tqdm import tqdm
 from tool.Focaloss import SigmoidFocalClassificationLoss
 

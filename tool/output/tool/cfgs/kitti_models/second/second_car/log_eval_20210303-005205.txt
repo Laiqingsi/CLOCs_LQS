@@ -1,2 +1,0 @@
-2021-03-03 00:52:06,232   INFO  Loading KITTI dataset
-2021-03-03 00:52:06,362   INFO  Total samples for KITTI dataset: 3769

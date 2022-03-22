@@ -1,7 +1,0 @@
-2021-03-04 23:10:33,959   INFO  Loading KITTI dataset
-2021-03-04 23:10:34,130   INFO  Total samples for KITTI dataset: 3769
-2021-03-04 23:10:36,861   INFO  #################################
-2021-03-04 23:10:36,863   INFO  # EVAL1
-2021-03-04 23:10:36,863   INFO  #################################
-2021-03-04 23:10:36,863   INFO  Generate output labels...
-2021-03-04 23:26:28,432   INFO  Generate output done

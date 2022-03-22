@@ -30,7 +30,7 @@ Add the CLOCs directory to your PYTHONPATH, just add below line to your `~/.bash
 ```bash
 export PYTHONPATH=$PYTHONPATH:'/dir/to/your/CLOCs/'
 ```
-**All data you need can be downloaded from [here](https://jbox.sjtu.edu.cn/l/U1EjFb).**
+**All data you need can be downloaded from [here](https://jbox.sjtu.edu.cn/l/U1EjFb)(or [Googledrive](https://drive.google.com/drive/folders/13h8452vcq0Wc-7p2BGMeJDpteHCDTdNs?usp=sharing)).**
 
 ### Performance
 
@@ -40,7 +40,7 @@ new 40 recall points
 
 ### Install PCdet
 
-The code is partly based on [Open-PCdet](https://github.com/open-mmlab/OpenPCDet), you need to install it first to get 3D detection data. Or you can just use data from [here](https://jbox.sjtu.edu.cn/l/U1EjFb) without PCdet. Please follow the step [here](https://github.com/open-mmlab/OpenPCDet). Please remind that the PCdet should be installed in another folder not in this folder. 
+The code is partly based on [Open-PCdet](https://github.com/open-mmlab/OpenPCDet), you need to install it first to get 3D detection data. Or you can just use data from [here](https://jbox.sjtu.edu.cn/l/U1EjFb)([Googledrive](https://drive.google.com/drive/folders/13h8452vcq0Wc-7p2BGMeJDpteHCDTdNs?usp=sharing)) without PCdet. Please follow the step [here](https://github.com/open-mmlab/OpenPCDet). Please remind that the PCdet should be installed in another folder not in this folder. 
 
 ### Install CLOCs
 You can just run
@@ -156,7 +156,7 @@ You should organize your data dir as below:
         ├── 000001.pt
         └── 000002.pt
 ```
-Here, the index dir is copied from `./index` and the files in `info` are got from pcdet or you can download from [here](https://jbox.sjtu.edu.cn/l/U1EjFb)
+Here, the index dir is copied from `./index` and the files in `info` are got from pcdet or you can download from [here](https://jbox.sjtu.edu.cn/l/U1EjFb)([Googledrive](https://drive.google.com/drive/folders/13h8452vcq0Wc-7p2BGMeJDpteHCDTdNs?usp=sharing))
 
 
 #### Train and Evaluation
